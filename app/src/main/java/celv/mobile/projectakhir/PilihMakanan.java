@@ -71,7 +71,7 @@ public class PilihMakanan extends AppCompatActivity {
 
         this.queue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.1.19/myAPI/PilihMakanan.json";
+        String url = "http://192.168.1.9/myAPI/PilihMakanan.json";
         StringRequest req = new StringRequest(
                 Request.Method.GET, url,
                 response -> {
