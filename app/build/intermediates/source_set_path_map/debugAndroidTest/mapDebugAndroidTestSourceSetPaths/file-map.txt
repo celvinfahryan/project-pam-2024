@@ -1,0 +1,5 @@
+dvs.mobile.filkomfood.test.app-core-1.6.1-0 C:\Users\LENOVO\.gradle\caches\transforms-4\ef7870c0bccb73e0a6aad4400a3e97cc\transformed\core-1.6.1\res
+dvs.mobile.filkomfood.test.app-androidTest-1 D:\AndroidStudioProjects\FilkomFood\app\build\generated\res\resValues\androidTest\debug
+dvs.mobile.filkomfood.test.app-mergeDebugAndroidTestResources-2 D:\AndroidStudioProjects\FilkomFood\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+dvs.mobile.filkomfood.test.app-mergeDebugAndroidTestResources-3 D:\AndroidStudioProjects\FilkomFood\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+dvs.mobile.filkomfood.test.app-debugAndroidTest-4 D:\AndroidStudioProjects\FilkomFood\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
