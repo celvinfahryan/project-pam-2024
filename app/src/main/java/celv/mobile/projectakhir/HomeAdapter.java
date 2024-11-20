@@ -1,4 +1,5 @@
 package celv.mobile.projectakhir;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -6,22 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
-    ArrayList<Menu> items;
-    Context context;
+    private final ArrayList<Menu> items;
+    private final Context context;
 
     public HomeAdapter(ArrayList<Menu> items, Context context) {
         this.items = items;
         this.context = context;
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
+    public static class Viewholder extends RecyclerView.ViewHolder {
         TextView time, shop, menu;
         ImageView pic;
 
@@ -44,20 +43,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
     @Override
     public void onBindViewHolder(@NonNull HomeAdapter.Viewholder holder, int position) {
         Menu item = items.get(position);
-        holder.time.setText(items.get(position).getTime());
-        holder.shop.setText(items.get(position).getShop());
-        holder.menu.setText(items.get(position).getMenu());
-
-        int imageResource = this.context.getResources().getIdentifier(item.pic , "drawable", this.context.getPackageName());
-        holder.pic.setImageResource(imageResource);
+        holder.time.setText(item.time);
+        holder.shop.setText(item.shop);
+        holder.menu.setText(item.menu);
+        int imageResource = context.getResources().getIdentifier(item.pic, "drawable", context.getPackageName());
         holder.pic.setImageResource(imageResource);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PilihMakanan.class);
-            intent.putExtra("menu", item.getMenu());
-            intent.putExtra("time", item.getTime());
-            intent.putExtra("price", item.getPrice());
-            intent.putExtra("pic", item.getPic());
+            intent.putExtra("menu", item.menu);
+            intent.putExtra("time", item.time);
+            intent.putExtra("price", item.price);
+            intent.putExtra("pic", item.pic);
             context.startActivity(intent);
         });
     }

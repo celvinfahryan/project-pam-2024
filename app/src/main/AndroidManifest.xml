@@ -26,10 +26,10 @@
             android:name=".PilihMakanan"
             android:exported="true">
         </activity>
-<!--        <activity-->
-<!--            android:name=".DetailMakanan"-->
-<!--            android:exported="true">-->
-<!--        </activity>-->
+        <activity
+            android:name=".DetailMakanan"
+            android:exported="true">
+        </activity>
 
     </application>
 
