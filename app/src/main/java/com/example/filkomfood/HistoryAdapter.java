@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter{
+
     private final Context ctx;
     private final List<History> data;
 
@@ -60,16 +61,16 @@ public class HistoryAdapter extends RecyclerView.Adapter{
         HistoryVH vh = (HistoryVH) holder;
 
         Picasso.get()
-                .load(h.gambar) // asumsi getProfileUrl mengembalikan URL gambar profil
+                .load(h.getGambar()) // asumsi getProfileUrl mengembalikan URL gambar profil
                 .placeholder(R.drawable.makanmakan    ) // Gambar sementara saat loading
                 .error(R.drawable.ic_launcher_background)       // Gambar jika terjadi error
                 .into(vh.IVprofil);
 
-        vh.TvJudul.setText(h.judul);
-        vh.TvWaktu.setText(h.waktu);
-        vh.TvSelesai.setText(h.selesai);
-        vh.TvMakanan.setText(h.makanan);
-        vh.TvHarga.setText(h.harga);
+        vh.TvJudul.setText(h.getJudul());
+        vh.TvWaktu.setText(h.getWaktu());
+        vh.TvSelesai.setText(h.getSelesai());
+        vh.TvMakanan.setText(h.getMakanan());
+        vh.TvHarga.setText(h.getHarga());
 
         ((HistoryVH) holder).btDetail.setOnClickListener(new View.OnClickListener() {
             @Override

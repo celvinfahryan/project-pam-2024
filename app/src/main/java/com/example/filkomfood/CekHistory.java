@@ -30,16 +30,18 @@ import retrofit2.http.GET;
 public class CekHistory extends AppCompatActivity  {
     private Button btdetail;
 
-    interface Request{
-        @GET("data.json")
-        Call<List<History>> getHistory();
-    }
+
+//    interface Request{
+//        @GET("data.json")
+//        Call<List<History>> getHistory();
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cek_history);
 
         this.btdetail = this.findViewById(R.id.btdetail);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

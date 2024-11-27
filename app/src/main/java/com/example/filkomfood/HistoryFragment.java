@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -15,6 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,21 +34,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-
-interface Request{
-    @GET("data.json")
-    Call<List<History>> getHistory();
-}
-
 public class HistoryFragment extends Fragment {
-
-    private List<History> data;
-    private HistoryAdapter historyAdapter;
+    private Handler handler;
     private RecyclerView rvHistory;
+    private FirebaseFirestore db;
+    private List<History> dataset = new ArrayList<>();
+    private HistoryAdapter historyAdapter;
 
 
     public HistoryFragment() {
-        // Required empty public constructor
     }
 
 
@@ -54,39 +56,29 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.data = new ArrayList<>();
+        this.dataset = new ArrayList<>();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.216/myAPI/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        CekHistory.Request request = retrofit.create(CekHistory.Request.class);
-        Call<List<History>> call = request.getHistory();
-
-        call.enqueue(new Callback<List<History>>() {
-            @Override
-            public void onResponse(Call<List<History>> call, Response<List<History>> response) {
-                if(response.isSuccessful()){
-                    data = response.body();
-                    historyAdapter = new HistoryAdapter(getContext(),data);
-                    rvHistory.setAdapter(historyAdapter);
-                    return;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<History>> call, Throwable throwable) {
-                Log.e("API Error", "Request failed", throwable);
-                Toast.makeText(getContext(), "Failed to load data: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
 
         this.rvHistory = view.findViewById(R.id.rvHistoryFragment);
         this.rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        this.historyAdapter = new HistoryAdapter(getContext(), data);
+        this.historyAdapter = new HistoryAdapter(getContext(), dataset);
         this.rvHistory.setAdapter(historyAdapter);
         this.historyAdapter.notifyDataSetChanged();
+
+
+        this.db = FirebaseFirestore.getInstance();
+        this.db.collection("History").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@androidx.annotation.Nullable QuerySnapshot value, @androidx.annotation.Nullable FirebaseFirestoreException error) {
+                for (DocumentChange dc: value.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED){
+                        dataset.add(dc.getDocument().toObject(History.class));
+                    }
+                    historyAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
+
 }

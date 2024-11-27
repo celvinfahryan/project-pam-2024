@@ -1,21 +1,45 @@
 package com.example.filkomfood;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+
 public class History{
-    public String gambar ;
-    public String judul ;
-    public String waktu ;
-    public String selesai ;
-    public String makanan;
-    public String harga;
+    public int id;
+    private String gambar ;
+    private String judul ;
+    private String waktu ;
+    private String selesai ;
+    private String makanan;
+    private String harga;
 
-    public History (String gambar ,String judul, String waktu, String selesai, String makanan, String harga){
-        this.gambar = gambar;
-       this.judul = judul;
-       this.waktu = waktu;
-       this.selesai = selesai;
-       this.makanan = makanan;
-       this.harga = harga;
-
-
+    public String getGambar() {
+        return gambar;
     }
+
+    public String getJudul() {
+        return judul;
+    }
+
+    public String getWaktu() {
+        return waktu;
+    }
+
+    public String getSelesai() {
+        return selesai;
+    }
+
+    public String getMakanan() {
+        return makanan;
+    }
+
+    public String getHarga() {
+        return harga;
+    }
+
+    public History() {
+    }
+
+
 }
