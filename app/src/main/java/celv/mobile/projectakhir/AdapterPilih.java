@@ -1,11 +1,14 @@
 package celv.mobile.projectakhir;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +32,7 @@ public class AdapterPilih extends RecyclerView.Adapter<AdapterPilih.Viewholder> 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.time);
-            menu = itemView.findViewById(R.id.menu);
+            menu = itemView.findViewById(R.id.description);
             price = itemView.findViewById(R.id.price);
             pic = itemView.findViewById(R.id.pic);
             addBtn = itemView.findViewById(R.id.addBtn);
@@ -40,7 +43,6 @@ public class AdapterPilih extends RecyclerView.Adapter<AdapterPilih.Viewholder> 
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rowview_pilih, parent, false);
-        context = parent.getContext();
         return new Viewholder(rowView);
     }
 
@@ -49,20 +51,20 @@ public class AdapterPilih extends RecyclerView.Adapter<AdapterPilih.Viewholder> 
         Menu item = items.get(position);
         holder.time.setText(items.get(position).getTime());
         holder.menu.setText(items.get(position).getMenu());
-        holder.price.setText(String.valueOf(item.getPrice()));
+        holder.price.setText(String.format("Rp %,d", (long) item.price));
 
-        int imageResource = this.context.getResources().getIdentifier(item.pic , "drawable", this.context.getPackageName());
-        holder.pic.setImageResource(imageResource);
-        holder.pic.setImageResource(imageResource);
+        Glide.with(context)
+                .load(item.getPic()) // URL gambar dari JSON
+                .placeholder(R.drawable.trends) // Placeholder saat loading
+                .error(R.drawable.trends) // Gambar error jika gagal memuat
+                .into(holder.pic);
 
-//        holder.addBtn.setOnClickListener(view -> {
-//            Intent intent = new Intent(context, DetailMakanan.class);
-//            intent.putExtra("title", item.getTitle());
-//            intent.putExtra("time", item.getTime());
-//            intent.putExtra("price", item.getPrice());
-//            intent.putExtra("picAddress", item.getPicAddress());
-//            context.startActivity(intent);
-//        });
+        holder.addBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailMakanan.class);
+            intent.putExtra("menu", item.menu);
+            intent.putExtra("price", item.price);
+            context.startActivity(intent);
+        });
     }
 
     @Override

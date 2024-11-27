@@ -11,6 +11,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/chart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,17 +32,17 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tvGreeting"
+                        android:id="@+id/tvShopName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Lalapan Bu Ella"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="40dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="shopName"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,7 +56,7 @@
                         android:orientation="vertical">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/view1"
+                            android:id="@+id/rvMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
@@ -65,111 +66,36 @@
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/navbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/scrollView2"-->
-<!--        app:menu="@menu/navbar" />-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollView2">
 
-    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!--        android:id="@+id/navbar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/scrollView2">-->
+            <!-- Tombol untuk Go to Summary -->
+            <Button
+                android:id="@+id/btCheckout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:backgroundTint="#043771"
+                android:text="Go to Summary"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <!--        <com.google.android.material.bottomappbar.BottomAppBar-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="60dp"-->
-    <!--            android:layout_gravity="bottom"-->
-    <!--            android:background="#F5F6F7"-->
-    <!--            app:backgroundTint="@color/white">-->
-
-    <!--            <LinearLayout-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="match_parent"-->
-    <!--                android:orientation="horizontal">-->
-
-    <!--                <LinearLayout-->
-    <!--                    android:id="@+id/homeBtn"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_weight="0.25"-->
-    <!--                    android:orientation="vertical">-->
-
-    <!--                    <ImageView-->
-    <!--                        android:id="@+id/ivHome"-->
-    <!--                        android:layout_width="20dp"-->
-    <!--                        android:layout_height="20dp"-->
-    <!--                        android:layout_gravity="center"-->
-    <!--                        android:layout_marginTop="8dp"-->
-    <!--                        android:backgroundTint="#000000"-->
-    <!--                        android:tint="#043771"-->
-    <!--                        app:srcCompat="@drawable/bottom_btn1" />-->
-
-    <!--                    <TextView-->
-    <!--                        android:id="@+id/tvHome"-->
-    <!--                        android:layout_width="match_parent"-->
-    <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:text="Home"-->
-    <!--                        android:textAlignment="center"-->
-    <!--                        android:textColor="#043771" />-->
-    <!--                </LinearLayout>-->
-
-    <!--                <LinearLayout-->
-    <!--                    android:id="@+id/activityBtn"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_weight="0.25"-->
-    <!--                    android:orientation="vertical">-->
-
-    <!--                    <ImageView-->
-    <!--                        android:id="@+id/ivActivity"-->
-    <!--                        android:layout_width="20dp"-->
-    <!--                        android:layout_height="20dp"-->
-    <!--                        android:layout_gravity="center"-->
-    <!--                        android:layout_marginTop="8dp"-->
-    <!--                        app:srcCompat="@drawable/baseline_notes_24" />-->
-
-    <!--                    <TextView-->
-    <!--                        android:id="@+id/tvActivity"-->
-    <!--                        android:layout_width="match_parent"-->
-    <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:text="Activity"-->
-    <!--                        android:textAlignment="center" />-->
-    <!--                </LinearLayout>-->
-
-    <!--                <LinearLayout-->
-    <!--                    android:id="@+id/profileBtn"-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_weight="0.25"-->
-    <!--                    android:orientation="vertical">-->
-
-    <!--                    <ImageView-->
-    <!--                        android:id="@+id/ivProfile"-->
-    <!--                        android:layout_width="20dp"-->
-    <!--                        android:layout_height="20dp"-->
-    <!--                        android:layout_gravity="center"-->
-    <!--                        android:layout_marginTop="8dp"-->
-    <!--                        app:srcCompat="@drawable/baseline_person_24" />-->
-
-    <!--                    <TextView-->
-    <!--                        android:id="@+id/tvProfile"-->
-    <!--                        android:layout_width="match_parent"-->
-    <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:text="Profile"-->
-    <!--                        android:textAlignment="center" />-->
-    <!--                </LinearLayout>-->
-    <!--            </LinearLayout>-->
-    <!--        </com.google.android.material.bottomappbar.BottomAppBar>-->
-    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

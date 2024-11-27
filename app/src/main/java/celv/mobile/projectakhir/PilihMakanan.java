@@ -4,57 +4,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-//public class PilihMakanan extends AppCompatActivity {
-//    private RecyclerView.Adapter adapterFoodList;
-//    private RecyclerView recyclerViewFood;
-//    private Button addBtn;
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.pilih_makanan);
-//
-//        String title = getIntent().getStringExtra("title");
-//        String time = getIntent().getStringExtra("time");
-//        int price = getIntent().getIntExtra("price", 0);
-//        int picAddress = getIntent().getIntExtra("picAddress", 0);
-//
-//        ArrayList<Menu> items = new ArrayList<>();
-////        items.add(new Menu(picAddress, time, title, 15000));
-////        items.add(new Menu(picAddress, time, title, 15000));
-////        items.add(new Menu(picAddress, time, title, 15000));
-////        items.add(new Menu(picAddress, time, title, 15000));
-////        items.add(new Menu(picAddress, time, title, 15000));
-////        items.add(new Menu(picAddress, time, title, 15000));
-//
-//
-//        recyclerViewFood = findViewById(R.id.view1);
-//        adapterFoodList = new AdapterPilih(items, this);
-//        recyclerViewFood.setAdapter(adapterFoodList);
-//        recyclerViewFood.setLayoutManager(new GridLayoutManager(this, 2));
-//    }
-//}
-
 public class PilihMakanan extends AppCompatActivity {
-    private RecyclerView.Adapter adapterFoodList;
-    private RecyclerView recyclerViewFood;
-    private RequestQueue queue;
-    ArrayList<Menu> items = new ArrayList<>();
+    public static final String FirebaseURL = "https://projectakhir-9f429-default-rtdb.asia-southeast1.firebasedatabase.app/";
+    private RecyclerView rvMenu;
+    private AdapterPilih adapter;
+    private FirebaseDatabase db;
+    private DatabaseReference appdb;
+    private ArrayList<Menu> items = new ArrayList<>();
+    private Button btCheckout;
+    private BottomNavigationView chart;
 
 
     @Override
@@ -62,31 +38,86 @@ public class PilihMakanan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pilih_makanan);
 
-        recyclerViewFood = findViewById(R.id.view1);
-        items = new ArrayList<>();
+        String shopName = getIntent().getStringExtra("shopName");
+        String idShop = getIntent().getStringExtra("idShop");
+        String pic = getIntent().getStringExtra("pic");
 
-        adapterFoodList = new AdapterPilih(items, this);
-        recyclerViewFood.setAdapter(adapterFoodList);
-        recyclerViewFood.setLayoutManager(new GridLayoutManager(this, 2));
+        TextView tvShopName = findViewById(R.id.tvShopName); // Pastikan ID sesuai dengan layout Anda
+        tvShopName.setText(shopName);
 
-        this.queue = Volley.newRequestQueue(this);
+        // Setup Firebase
+        db = FirebaseDatabase.getInstance(FirebaseURL);
 
-        String url = "http://192.168.1.9/myAPI/PilihMakanan.json";
-        StringRequest req = new StringRequest(
-                Request.Method.GET, url,
-                response -> {
-                    Gson gson = new Gson();
-//                        JSONArray array = gson.fromJson(response, JSONArray.class);
-                    Menu[] array = gson.fromJson(response, Menu[].class);
-                    for (int i = 0; i < array.length; i++) {
-                        items.add(array[i]);
+        // Ubah referensi ke Menu berdasarkan idShop
+        appdb = db.getReference("Shop").child(idShop).child("Menu");
+
+        // Initialize RecyclerView
+        rvMenu = findViewById(R.id.rvMenu);
+        adapter = new AdapterPilih(items, this);
+        rvMenu.setAdapter(adapter);
+        rvMenu.setLayoutManager(new GridLayoutManager(this, 2));
+
+        btCheckout = findViewById(R.id.btCheckout);
+        chart = findViewById(R.id.chart);
+
+        // Load data from Firebase
+        loadMenuData();
+
+        onResume();
+
+        btCheckout.setOnClickListener(v -> {
+            Intent intent = new Intent(PilihMakanan.this, CartActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void loadMenuData() {
+        appdb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                items.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Menu menu = dataSnapshot.getValue(Menu.class);
+                    if (menu != null) {
+                        items.add(menu);
                     }
-                    adapterFoodList.notifyDataSetChanged();
-                }, error -> {
-            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-        }
-        );
-        queue.add(req);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PilihMakanan.this, "Failed to load data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Tambahkan logika untuk membuat tombol terlihat
+    private void showSummaryButtonIfCartNotEmpty() {
+        DatabaseReference cartRef = FirebaseDatabase.getInstance(FirebaseURL).getReference("Cart");
+        cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    chart.setVisibility(View.VISIBLE);
+                    btCheckout.setVisibility(View.VISIBLE);
+                } else {
+                    chart.setVisibility(View.GONE);
+                    btCheckout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PilihMakanan.this, "Failed to check cart: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Panggil fungsi ini di akhir loadMenuData()
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showSummaryButtonIfCartNotEmpty();
     }
 }

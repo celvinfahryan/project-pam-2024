@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "139019798324",
+    "project_id": "projectakhir-9f429",
+    "storage_bucket": "projectakhir-9f429.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139019798324:android:2ffa45835598d83e5e4761",
+        "android_client_info": {
+          "package_name": "celv.mobile.projectakhir"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYOmsDHPdqZGXe_BlgJyUwZkO9zQZmA9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

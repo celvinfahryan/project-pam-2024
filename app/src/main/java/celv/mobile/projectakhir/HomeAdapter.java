@@ -10,26 +10,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
-    ArrayList<Menu> items;
+    ArrayList<Shop> items;
     Context context;
 
-    public HomeAdapter(ArrayList<Menu> items, Context context) {
+    public HomeAdapter(ArrayList<Shop> items, Context context) {
         this.items = items;
         this.context = context;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        TextView time, shop, menu;
+        TextView time, shopName, description;
         ImageView pic;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.time);
-            shop = itemView.findViewById(R.id.shop);
-            menu = itemView.findViewById(R.id.menu);
+            shopName = itemView.findViewById(R.id.shopName);
+            description = itemView.findViewById(R.id.description);
             pic = itemView.findViewById(R.id.pic);
         }
     }
@@ -43,21 +46,22 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull HomeAdapter.Viewholder holder, int position) {
-        Menu item = items.get(position);
-        holder.time.setText(items.get(position).getTime());
-        holder.shop.setText(items.get(position).getShop());
-        holder.menu.setText(items.get(position).getMenu());
+        Shop shop = items.get(position);
+        holder.time.setText(shop.getTime());
+        holder.shopName.setText(shop.getShopName());
+        holder.description.setText(shop.getDescription());
 
-        int imageResource = this.context.getResources().getIdentifier(item.pic , "drawable", this.context.getPackageName());
-        holder.pic.setImageResource(imageResource);
-        holder.pic.setImageResource(imageResource);
+        Glide.with(context)
+                .load(shop.getPic()) // URL gambar dari JSON
+                .placeholder(R.drawable.trends) // Placeholder saat loading
+                .error(R.drawable.trends) // Gambar error jika gagal memuat
+                .into(holder.pic);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PilihMakanan.class);
-            intent.putExtra("menu", item.getMenu());
-            intent.putExtra("time", item.getTime());
-            intent.putExtra("price", item.getPrice());
-            intent.putExtra("pic", item.getPic());
+            intent.putExtra("idShop", items.get(position).getId());
+            intent.putExtra("shopName", items.get(position).getShopName());
+            intent.putExtra("pic", items.get(position).getPic());
             context.startActivity(intent);
         });
     }

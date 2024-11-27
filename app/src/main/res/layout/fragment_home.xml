@@ -38,7 +38,7 @@
                         app:srcCompat="@drawable/user_1" />
 
                     <TextView
-                        android:id="@+id/tvGreeting"
+                        android:id="@+id/shopName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -72,7 +72,7 @@
                         android:orientation="vertical">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/view1"
+                            android:id="@+id/rvShop"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
