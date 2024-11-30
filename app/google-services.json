@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "411756670795",
+    "firebase_url": "https://filkomfood-default-rtdb.firebaseio.com",
+    "project_id": "filkomfood",
+    "storage_bucket": "filkomfood.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411756670795:android:6c2ce5270efffd116a42ce",
+        "android_client_info": {
+          "package_name": "dvs.mobile.filkomfood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBvN27F4O5zLlb18XxgTqLmGj5qcrrR7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
