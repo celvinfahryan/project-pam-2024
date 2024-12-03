@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         // Initialize RecyclerView
         rvShop = view.findViewById(R.id.rvShop);
         adapter = new HomeAdapter(shopList, getActivity());
-        rvShop.setAdapter(adapter);
+        rvShop.setAdapter(adapter) ;
         rvShop.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         // Load data from Firebase
