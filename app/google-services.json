@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461761848313",
+    "project_id": "filkomfood-7542e",
+    "storage_bucket": "filkomfood-7542e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461761848313:android:ebc64988130179642a1328",
+        "android_client_info": {
+          "package_name": "celv.mobile.projectakhir"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE3ROs3Qi44EnVy7qwRPtmnetjdh-yA3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
